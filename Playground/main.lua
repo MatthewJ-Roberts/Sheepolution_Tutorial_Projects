@@ -9,18 +9,56 @@ function love.load()
     love.graphics.setNewFont(24)
     PosX = 0
     PosY = 0
+    PosXRec = 0
+    PosYRec = 0
+    Move = true
+    Mode = "fill"
 end
 
 function love.update(dt)
-    print(dt)
-    PosX = PosX + 100 * dt
-    PosY = PosY + 100 * dt
+    if PosX < 300 then
+        PosX = PosX + 100 * dt
+        PosY = PosY + 100 * dt
+    else
+        Move = false
+    end
+
+    -- Handle keyboard input for moving the rectangle
+    -- Don't use elseif, otherwise diagonal movement doesn't work
+    -- Ugly, but switch case statements aren't a thing, there is some kind of table approach though
+    if love.keyboard.isDown("d") then
+        PosXRec = PosXRec + 100 * dt
+    end
+    if love.keyboard.isDown("a") then
+        PosXRec = PosXRec - 100 * dt
+    end
+    if love.keyboard.isDown("w") then
+        PosYRec = PosYRec - 100 * dt
+    end
+    if love.keyboard.isDown("s") then
+        PosYRec = PosYRec + 100 * dt
+    end
+    
+end
+
+function love.keypressed(key)
+    if key == "space" then
+        if Mode == "fill" then
+            Mode = "line"
+        else
+            Mode = "fill"
+        end
+    end
 end
 
 function love.draw()
     love.graphics.printf("Welcome to LÖVE", 0, love.graphics.getHeight() / 2, love.graphics.getWidth(), "center")
-    love.graphics.rectangle("fill", love.graphics.getWidth() / 2, love.graphics.getHeight() / 4, 100, 100)
-    love.graphics.circle("fill", PosX, PosY, 50, 50)
+    love.graphics.rectangle(Mode, PosXRec, PosYRec, 100, 100)
+    if Move then
+        love.graphics.circle("line", PosX, PosY, 50, 50)
+    else
+        love.graphics.circle("fill", PosX, PosY, 50, 50)
+    end
     -- love.errorTest()
 end
 
