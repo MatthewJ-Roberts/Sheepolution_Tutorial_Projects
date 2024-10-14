@@ -1,5 +1,5 @@
 -- Leave this at the top of the code
--- Provides actually debugging functionality
+-- Provides actual debugging functionality
 if arg[2] == "debug" then
     require("lldebugger").start()
 end
@@ -7,12 +7,17 @@ end
 function love.load()
     love.window.setTitle("Hello LÖVE")
     love.graphics.setNewFont(24)
+
     PosX = 0
     PosY = 0
     PosXRec = 0
     PosYRec = 0
     Move = true
     Mode = "fill"
+
+    Words = { "LÖVE", "Gaming", "Creating" }
+    WordsCycle = 1
+    table.insert(Words, "Coding")
 end
 
 function love.update(dt)
@@ -38,7 +43,6 @@ function love.update(dt)
     if love.keyboard.isDown("s") then
         PosYRec = PosYRec + 100 * dt
     end
-    
 end
 
 function love.keypressed(key)
@@ -48,27 +52,39 @@ function love.keypressed(key)
         else
             Mode = "fill"
         end
+    elseif key == "tab" then
+        if WordsCycle < #Words then
+            WordsCycle = WordsCycle + 1
+        else
+            WordsCycle = 1
+            if #Words > 1 then table.remove(Words, #Words - (#Words - 1)) end
+        end
+    elseif key == "lshift" then
+        Words[1] = "You pressed lshift!"
     end
 end
 
 function love.draw()
-    love.graphics.printf("Welcome to LÖVE", 0, love.graphics.getHeight() / 2, love.graphics.getWidth(), "center")
+    love.graphics.printf("Welcome to " .. Words[WordsCycle], 0, love.graphics.getHeight() / 2, love.graphics.getWidth(),
+        "center")
+    PrintSomeWords()
     love.graphics.rectangle(Mode, PosXRec, PosYRec, 100, 100)
     if Move then
         love.graphics.circle("line", PosX, PosY, 50, 50)
     else
         love.graphics.circle("fill", PosX, PosY, 50, 50)
     end
-    -- love.errorTest()
 end
 
--- function love.errorTest()
---     local x = nil
-
---     local y = 10
-
---     y = y + x
--- end
+function PrintSomeWords()
+    for i = 1, #Words do
+        love.graphics.print(Words[i], 100, 100 + 50 * i)
+    end
+    for i, v in ipairs(Words) do
+        love.graphics.print("key: " .. i .. "\t" .. "value: " .. v, love.graphics.getWidth() / 2,
+            love.graphics.getHeight() / 2 + i * 50)
+    end
+end
 
 -- Leave this at the bottom of the code
 -- Provides improved VSCode debugging info
