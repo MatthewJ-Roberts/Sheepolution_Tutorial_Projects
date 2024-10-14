@@ -1,4 +1,6 @@
-function CreateRect()
+local rectangle = {}
+
+function rectangle.createRect()
     local rect = {}
     rect.posX = 0
     rect.posY = 0
@@ -8,7 +10,7 @@ function CreateRect()
     table.insert(Rectangles, rect)
 end
 
-function MoveRectangles(dt)
+function rectangle.moveRectangles(dt)
     for i, rect in ipairs(Rectangles) do
         if rect.player == 1 then
             -- Handle keyboard input for moving the rectangle
@@ -42,3 +44,5 @@ function MoveRectangles(dt)
         end
     end
 end
+
+return rectangle
