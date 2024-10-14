@@ -4,8 +4,7 @@ if arg[2] == "debug" then
     require("lldebugger").start()
 end
 
-local posX, posY, move
-local rectangle, rectangles
+local rectangle, rectangles, circle, circles
 local words
 local wordsCycle
 local tick
@@ -14,7 +13,7 @@ function love.load()
     -- Getting libraries
     require("libs.example")
     print(require("libs.exampleReturn"))
-    require("libs.rectangle")
+    circle = require("libs.circle")
     rectangle = require("libs.rectangle")
     tick = require("libs.tick")
 
@@ -22,10 +21,6 @@ function love.load()
 
     love.window.setTitle("Hello LÖVE")
     love.graphics.setNewFont(24)
-    
-    posX = 0
-    posY = 0
-    move = true
 
     words = { "LÖVE", "Gaming", "Creating" }
     wordsCycle = 1
@@ -33,14 +28,20 @@ function love.load()
 
     rectangles = {}
     table.insert(rectangles, rectangle.createRect())
+
+    -- Seeding math.random so that the circle radius is actually random
+    math.randomseed(os.time())
+    circles = {}
+    table.insert(circles, circle.createCircle())
+
+    tick.recur(function() table.insert(circles, circle.createCircle()) end, 2)
 end
 
 function love.update(dt)
-    if posX < 300 then
-        posX = posX + 100 * dt
-        posY = posY + 100 * dt
-    else
-        move = false
+    tick.update(dt)
+
+    for i, circ in ipairs(circles) do
+        circle.moveCircle(dt, circ)
     end
     for i, rect in ipairs(rectangles) do
         rectangle.moveRectangles(dt, rect)
@@ -54,10 +55,8 @@ function love.draw()
     for i, rect in ipairs(rectangles) do
         love.graphics.rectangle(rect.mode, rect.posX, rect.posY, 100, 100)
     end
-    if move then
-        love.graphics.circle("line", posX, posY, 50, 50)
-    else
-        love.graphics.circle("fill", posX, posY, 50, 50)
+    for i, circ in ipairs(circles) do
+        love.graphics.circle(circ.mode, circ.x, circ.y, circ.radius)
     end
 end
 
