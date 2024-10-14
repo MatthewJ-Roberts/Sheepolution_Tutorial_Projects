@@ -32,7 +32,7 @@ function love.load()
     table.insert(words, "Coding")
 
     rectangles = {}
-    rectangle.createRect()
+    table.insert(rectangles, rectangle.createRect())
 end
 
 function love.update(dt)
@@ -42,7 +42,9 @@ function love.update(dt)
     else
         move = false
     end
-    rectangle.moveRectangles(dt)
+    for i, rect in ipairs(rectangles) do
+        rectangle.moveRectangles(dt, rect)
+    end
 end
 
 function love.draw()
@@ -101,7 +103,7 @@ function love.keypressed(key)
     elseif key == "lshift" then
         words[1] = "You pressed lshift!"
     elseif key == "rctrl" and #rectangles < 2 then
-        rectangle.createRect()
+        table.insert(rectangles, rectangle.createRect())
         table.insert(words, "Player 2 has joined!")
     end
 end
