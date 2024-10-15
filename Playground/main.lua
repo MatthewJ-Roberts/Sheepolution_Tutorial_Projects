@@ -7,7 +7,7 @@ end
 -- Declaring upvalues (values only accessible by functions in this file)
 -- Global variables (variables starting with a capital letter) are accessible anywhere in ALL files
 -- Caveat: Constructors for classes start with capital letters as well
-local Rectangle, rectangles, circle, circles
+local Rectangle, rectangles, Circle, circles
 local words
 local wordsCycle
 local tick
@@ -18,7 +18,7 @@ function love.load()
     require("libs.example")
     print(require("libs.exampleReturn"))
 
-    circle = require("libs.circle")
+    Circle = require("libs.circle")
     Rectangle = require("libs.rectangle")
     tick = require("libs.tick")
 
@@ -38,16 +38,16 @@ function love.load()
     -- Seeding math.random so that the circle radius is actually random
     math.randomseed(os.time())
     circles = {}
-    table.insert(circles, circle.createCircle())
+    table.insert(circles, Circle())
 
-    tick.recur(function() table.insert(circles, circle.createCircle()) end, 2)
+    tick.recur(function() table.insert(circles, Circle()) end, 2)
 end
 
 function love.update(dt)
     tick.update(dt)
 
     for i, circ in ipairs(circles) do
-        circle.moveCircle(dt, circ)
+        circ:move(dt)
     end
     for i, rect in ipairs(rectangles) do
         rect:move(dt)

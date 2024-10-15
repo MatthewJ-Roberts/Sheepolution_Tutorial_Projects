@@ -1,23 +1,23 @@
-local circle = {}
+local Object = require("libs.classic")
 
-function circle.createCircle()
-    local circle = {}
-    circle.x = 0
-    circle.y = 0
-    circle.mode = "fill"
-    circle.move = true
-    circle.radius = math.random(5, 100)
-    return circle
+local Circle = Object:extend()
+
+function Circle:new()
+    self.x = 0
+    self.y = 0
+    self.mode = "fill"
+    self.canMove = true
+    self.radius = math.random(5, 100)
 end
 
-function circle.moveCircle(dt, circ)
-    if circ.x < 300 then
-        circ.x = circ.x + 100 * dt
-        circ.y = circ.y + 100 * dt
+function Circle:move(dt)
+    if self.x < 300 then
+        self.x = self.x + 100 * dt
+        self.y = self.y + 100 * dt
     else
-        circ.move = false
-        circ.mode = "line"
+        self.canMove = false
+        self.mode = "line"
     end
 end
 
-return circle
+return Circle

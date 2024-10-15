@@ -1,6 +1,6 @@
-local object = require("libs.classic")
+local Object = require("libs.classic")
 
-local Rectangle = object:extend()
+local Rectangle = Object:extend()
 
 function Rectangle:new(players)
     self.posX = 0
