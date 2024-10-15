@@ -4,17 +4,22 @@ if arg[2] == "debug" then
     require("lldebugger").start()
 end
 
-local rectangle, rectangles, circle, circles
+-- Declaring upvalues (values only accessible by functions in this file)
+-- Global variables (variables starting with a capital letter) are accessible anywhere in ALL files
+-- Caveat: Constructors for classes start with capital letters as well
+local Rectangle, rectangles, circle, circles
 local words
 local wordsCycle
 local tick
+local players
 
 function love.load()
     -- Getting libraries
     require("libs.example")
     print(require("libs.exampleReturn"))
+
     circle = require("libs.circle")
-    rectangle = require("libs.rectangle")
+    Rectangle = require("libs.rectangle")
     tick = require("libs.tick")
 
     print(Test)
@@ -27,7 +32,8 @@ function love.load()
     table.insert(words, "Coding")
 
     rectangles = {}
-    table.insert(rectangles, rectangle.createRect())
+    players = 1
+    table.insert(rectangles, Rectangle(players))
 
     -- Seeding math.random so that the circle radius is actually random
     math.randomseed(os.time())
@@ -44,7 +50,7 @@ function love.update(dt)
         circle.moveCircle(dt, circ)
     end
     for i, rect in ipairs(rectangles) do
-        rectangle.moveRectangles(dt, rect)
+        rect:move(dt)
     end
 end
 
@@ -62,35 +68,8 @@ end
 
 function love.keypressed(key)
     for i, rect in ipairs(rectangles) do
-        if rect.player == 1 then
-            if key == "space" then
-                if rect.mode == "fill" then
-                    rect.mode = "line"
-                else
-                    rect.mode = "fill"
-                end
-            elseif key == "lctrl" then
-                if rect.speed < 500 then
-                    rect.speed = rect.speed + 100
-                else
-                    rect.speed = 100
-                end
-            end
-        else
-            if key == "m" then
-                if rect.mode == "fill" then
-                    rect.mode = "line"
-                else
-                    rect.mode = "fill"
-                end
-            elseif key == "," then
-                if rect.speed < 500 then
-                    rect.speed = rect.speed + 100
-                else
-                    rect.speed = 100
-                end
-            end
-        end
+        rect:changeSpeed(key)
+        rect:changeMode(key)
     end
     if key == "tab" then
         if wordsCycle < #words then
@@ -102,7 +81,8 @@ function love.keypressed(key)
     elseif key == "lshift" then
         words[1] = "You pressed lshift!"
     elseif key == "rctrl" and #rectangles < 2 then
-        table.insert(rectangles, rectangle.createRect())
+        players = players + 1
+        table.insert(rectangles, Rectangle(players))
         table.insert(words, "Player 2 has joined!")
     end
 end

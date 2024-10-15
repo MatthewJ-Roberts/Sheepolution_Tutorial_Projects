@@ -1,48 +1,63 @@
-local rectangle = {}
-local players = 1
+local object = require("libs.classic")
 
-function rectangle.createRect()
-    local rect = {}
-    rect.posX = 0
-    rect.posY = 0
-    rect.mode = "fill"
-    rect.speed = 100
-    rect.player = players
-    players = players + 1
-    return rect
+local Rectangle = object:extend()
+
+function Rectangle:new(players)
+    self.posX = 0
+    self.posY = 0
+    self.mode = "fill"
+    self.speed = 100
+    self.player = players
 end
 
-function rectangle.moveRectangles(dt, rect)
-    if rect.player == 1 then
-        -- Handle keyboard input for moving the rectangle
-        -- Don't use elseif, otherwise diagonal movement doesn't work
-        -- Ugly, but switch case statements aren't a thing, there is some kind of table approach though
-        if love.keyboard.isDown("d") then
-            rect.posX = rect.posX + rect.speed * dt
-        end
-        if love.keyboard.isDown("a") then
-            rect.posX = rect.posX - rect.speed * dt
-        end
-        if love.keyboard.isDown("w") then
-            rect.posY = rect.posY - rect.speed * dt
-        end
-        if love.keyboard.isDown("s") then
-            rect.posY = rect.posY + rect.speed * dt
-        end
-    else
-        if love.keyboard.isDown("right") then
-            rect.posX = rect.posX + rect.speed * dt
-        end
-        if love.keyboard.isDown("left") then
-            rect.posX = rect.posX - rect.speed * dt
-        end
-        if love.keyboard.isDown("up") then
-            rect.posY = rect.posY - rect.speed * dt
-        end
-        if love.keyboard.isDown("down") then
-            rect.posY = rect.posY + rect.speed * dt
-        end
+function Rectangle:move(dt)
+    local controls = {
+        [1] = {up = "w", down = "s", left = "a", right = "d"},
+        [2] = {up = "up", down = "down", left = "left", right = "right"}
+    }
+
+    local playerControls = controls[self.player]
+
+    if love.keyboard.isDown(playerControls.right) then
+        self.posX = self.posX + self.speed * dt
+    end
+    if love.keyboard.isDown(playerControls.left) then
+        self.posX = self.posX - self.speed * dt
+    end
+    if love.keyboard.isDown(playerControls.up) then
+        self.posY = self.posY - self.speed * dt
+    end
+    if love.keyboard.isDown(playerControls.down) then
+        self.posY = self.posY + self.speed * dt
     end
 end
 
-return rectangle
+function Rectangle:changeSpeed(key)
+    local controls = {
+        [1] = "lctrl",
+        [2] = ","
+    }
+
+    local playerControls = controls[self.player]
+
+    if key == playerControls then
+        -- Lua ternary operator
+        self.speed = self.speed < 500 and self.speed + 100 or 100
+    end
+end
+
+function Rectangle:changeMode(key)
+    local controls = {
+        [1] = "space",
+        [2] = "m"
+    }
+
+    local playerControls = controls[self.player]
+
+    if key == playerControls then
+        -- Lua ternary operator
+        self.mode = self.mode == "fill" and "line" or "fill"
+    end
+end
+
+return Rectangle
