@@ -41,7 +41,9 @@ function love.load()
     circles = {}
     table.insert(circles, Circle())
 
-    tick.recur(function() table.insert(circles, Circle()) end, 2)
+    tick.recur(function()
+        table.insert(circles, Circle())
+    end, 2)
 
     image = love.graphics.newImage("img/Silent-Voice-Monochrome.png")
     imgWidth = image:getWidth()
@@ -62,8 +64,13 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.printf("Welcome to " .. words[wordsCycle], 0, love.graphics.getHeight() / 2, love.graphics.getWidth(),
-        "center")
+    love.graphics.printf(
+        "Welcome to " .. words[wordsCycle],
+        0,
+        love.graphics.getHeight() / 2,
+        love.graphics.getWidth(),
+        "center"
+    )
     PrintSomeWords()
     for i, rect in ipairs(rectangles) do
         rect:draw()
@@ -84,7 +91,9 @@ function love.keypressed(key)
             wordsCycle = wordsCycle + 1
         else
             wordsCycle = 1
-            if #words > 1 then table.remove(words, #words - (#words - 1)) end
+            if #words > 1 then
+                table.remove(words, #words - (#words - 1))
+            end
         end
     elseif key == "lshift" then
         words[1] = "You pressed lshift!"
@@ -100,8 +109,11 @@ function PrintSomeWords()
         love.graphics.print(words[i], 100, 100 + 50 * i)
     end
     for i, v in ipairs(words) do
-        love.graphics.print("key: " .. i .. "\t" .. "value: " .. v, love.graphics.getWidth() / 2,
-            love.graphics.getHeight() / 2 + i * 50)
+        love.graphics.print(
+            "key: " .. i .. "\t" .. "value: " .. v,
+            love.graphics.getWidth() / 2,
+            love.graphics.getHeight() / 2 + i * 50
+        )
     end
 end
 

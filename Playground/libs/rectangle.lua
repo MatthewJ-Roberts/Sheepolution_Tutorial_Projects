@@ -3,8 +3,18 @@ local Object = require("libs.classic")
 local Rectangle = Object:extend()
 
 local playerData = {
-    [1] = {controls = {up = "w", down = "s", left = "a", right = "d"}, speedToggle = "lctrl", modeToggle = "space", color = {1, 0, 0}},
-    [2] = {controls = {up = "up", down = "down", left = "left", right = "right"}, speedToggle = ",", modeToggle = "m", color = {0, 1, 0}}
+    [1] = {
+        controls = { up = "w", down = "s", left = "a", right = "d" },
+        speedToggle = "lctrl",
+        modeToggle = "space",
+        color = { 1, 0, 0 },
+    },
+    [2] = {
+        controls = { up = "up", down = "down", left = "left", right = "right" },
+        speedToggle = ",",
+        modeToggle = "m",
+        color = { 0, 1, 0 },
+    },
 }
 
 function Rectangle:new(players)

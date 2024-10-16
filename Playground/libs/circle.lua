@@ -8,7 +8,7 @@ function Circle:new()
     self.mode = "fill"
     self.canMove = true
     self.radius = math.random(5, 100)
-    self.color = {math.random(0, 255) / 255, math.random(0, 255) / 255, math.random(0, 255) / 255}
+    self.color = { math.random(0, 255) / 255, math.random(0, 255) / 255, math.random(0, 255) / 255 }
 end
 
 function Circle:move(dt)
