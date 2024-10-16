@@ -12,6 +12,7 @@ local words
 local wordsCycle
 local tick
 local players
+local image, imgWidth, imgHeight
 
 function love.load()
     -- Getting libraries
@@ -41,6 +42,12 @@ function love.load()
     table.insert(circles, Circle())
 
     tick.recur(function() table.insert(circles, Circle()) end, 2)
+
+    image = love.graphics.newImage("img/Silent-Voice-Monochrome.png")
+    imgWidth = image:getWidth()
+    imgHeight = image:getHeight()
+    print(imgWidth)
+    print(imgHeight)
 end
 
 function love.update(dt)
@@ -59,11 +66,12 @@ function love.draw()
         "center")
     PrintSomeWords()
     for i, rect in ipairs(rectangles) do
-        love.graphics.rectangle(rect.mode, rect.posX, rect.posY, 100, 100)
+        rect:draw()
     end
     for i, circ in ipairs(circles) do
         love.graphics.circle(circ.mode, circ.x, circ.y, circ.radius)
     end
+    love.graphics.draw(image, imgWidth * 0.1 / 2 + 300, imgHeight * 0.1 / 2, 0, 0.1, 0.1, imgWidth / 2, imgHeight / 2)
 end
 
 function love.keypressed(key)
