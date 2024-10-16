@@ -3,8 +3,8 @@ local Object = require("libs.classic")
 local Rectangle = Object:extend()
 
 local playerData = {
-    [1] = {controls = {up = "w", down = "s", left = "a", right = "d"}, speedToggle = "lctrl", modeToggle = "space", colour = {1, 0, 0}},
-    [2] = {controls = {up = "up", down = "down", left = "left", right = "right"}, speedToggle = ",", modeToggle = "m", colour = {0, 1, 0}}
+    [1] = {controls = {up = "w", down = "s", left = "a", right = "d"}, speedToggle = "lctrl", modeToggle = "space", color = {1, 0, 0}},
+    [2] = {controls = {up = "up", down = "down", left = "left", right = "right"}, speedToggle = ",", modeToggle = "m", color = {0, 1, 0}}
 }
 
 function Rectangle:new(players)
@@ -45,7 +45,7 @@ function Rectangle:changeMode(key)
 end
 
 function Rectangle:draw()
-    love.graphics.setColor(playerData[self.player].colour)
+    love.graphics.setColor(playerData[self.player].color)
     love.graphics.rectangle(self.mode, self.posX, self.posY, 100, 100)
     love.graphics.setColor(1, 1, 1)
 end

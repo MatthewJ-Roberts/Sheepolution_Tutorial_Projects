@@ -69,7 +69,7 @@ function love.draw()
         rect:draw()
     end
     for i, circ in ipairs(circles) do
-        love.graphics.circle(circ.mode, circ.x, circ.y, circ.radius)
+        circ:draw()
     end
     love.graphics.draw(image, imgWidth * 0.1 / 2 + 300, imgHeight * 0.1 / 2, 0, 0.1, 0.1, imgWidth / 2, imgHeight / 2)
 end

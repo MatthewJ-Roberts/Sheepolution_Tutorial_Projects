@@ -8,6 +8,7 @@ function Circle:new()
     self.mode = "fill"
     self.canMove = true
     self.radius = math.random(5, 100)
+    self.color = {math.random(0, 255) / 255, math.random(0, 255) / 255, math.random(0, 255) / 255}
 end
 
 function Circle:move(dt)
@@ -18,6 +19,12 @@ function Circle:move(dt)
         self.canMove = false
         self.mode = "line"
     end
+end
+
+function Circle:draw()
+    love.graphics.setColor(self.color)
+    love.graphics.circle(self.mode, self.x, self.y, self.radius)
+    love.graphics.setColor(1, 1, 1)
 end
 
 return Circle
