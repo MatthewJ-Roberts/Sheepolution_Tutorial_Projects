@@ -1,9 +1,4 @@
--- Leave this at the top of the code
--- Provides actual debugging functionality
-if arg[2] == "debug" then
-    require("lldebugger").start()
-end
-
+require("libs.vscode_debugging_support")
 -- Declaring upvalues (values only accessible by functions in this file)
 -- Global variables (variables starting with a capital letter) are accessible anywhere in ALL files
 -- Caveat: Constructors for classes start with capital letters as well
@@ -114,17 +109,5 @@ function PrintSomeWords()
             love.graphics.getWidth() / 2,
             love.graphics.getHeight() / 2 + i * 50
         )
-    end
-end
-
--- Leave this at the bottom of the code
--- Provides improved VSCode debugging info
-local love_errorhandler = love.errorhandler
-
-function love.errorhandler(msg)
-    if "lldebugger" then
-        error(msg, 2)
-    else
-        return love_errorhandler(msg)
     end
 end

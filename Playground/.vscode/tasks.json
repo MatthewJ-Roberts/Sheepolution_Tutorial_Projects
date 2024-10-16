@@ -7,7 +7,7 @@
             "command": "makelove",
             "args": [
                 "--config",
-                "make_all.toml"
+                "makelove.toml"
             ],
             "group": {
                 "kind": "build",
