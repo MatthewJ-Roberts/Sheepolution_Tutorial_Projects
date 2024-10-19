@@ -56,6 +56,17 @@ function love.update(dt)
     for i, rect in ipairs(rectangles) do
         rect:move(dt)
     end
+
+    -- Resetting collision values
+    for i, rect in ipairs(rectangles) do
+        rect.colliding = false
+    end
+    -- Determining collisions
+    for i = 1, #rectangles - 1 do
+        for j = i + 1, #rectangles do
+            CheckColliding(rectangles[i], rectangles[j])
+        end
+    end
 end
 
 function love.draw()
@@ -67,6 +78,7 @@ function love.draw()
         "center"
     )
     PrintSomeWords()
+
     for i, rect in ipairs(rectangles) do
         rect:draw()
     end
@@ -92,10 +104,10 @@ function love.keypressed(key)
         end
     elseif key == "lshift" then
         words[1] = "You pressed lshift!"
-    elseif key == "rctrl" and #rectangles < 2 then
+    elseif key == "rctrl" and #rectangles < 3 then
         players = players + 1
         table.insert(rectangles, Rectangle(players))
-        table.insert(words, "Player 2 has joined!")
+        table.insert(words, "Player " .. #rectangles .. " has joined!")
     end
 end
 
@@ -109,5 +121,17 @@ function PrintSomeWords()
             love.graphics.getWidth() / 2,
             love.graphics.getHeight() / 2 + i * 50
         )
+    end
+end
+
+function CheckColliding(rect1, rect2)
+    if
+        rect1.posX + rect1.width > rect2.posX
+        and rect1.posX < rect2.posX + rect2.width
+        and rect1.posY + rect1.height > rect2.posY
+        and rect1.posY < rect2.posY + rect2.height
+    then
+        rect1.colliding = true
+        rect2.colliding = true
     end
 end
