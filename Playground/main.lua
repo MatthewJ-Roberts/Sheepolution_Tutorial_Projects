@@ -12,6 +12,7 @@ local image, imgWidth, imgHeight
 function love.load()
     -- Getting libraries
     require("libs.example")
+    require("libs.aabb_collision_detection")
     print(require("libs.exampleReturn"))
 
     Circle = require("libs.circle")
@@ -56,17 +57,7 @@ function love.update(dt)
     for i, rect in ipairs(rectangles) do
         rect:move(dt)
     end
-
-    -- Resetting collision values
-    for i, rect in ipairs(rectangles) do
-        rect.colliding = false
-    end
-    -- Determining collisions
-    for i = 1, #rectangles - 1 do
-        for j = i + 1, #rectangles do
-            CheckColliding(rectangles[i], rectangles[j])
-        end
-    end
+    CheckColliding(rectangles)
 end
 
 function love.draw()
@@ -121,17 +112,5 @@ function PrintSomeWords()
             love.graphics.getWidth() / 2,
             love.graphics.getHeight() / 2 + i * 50
         )
-    end
-end
-
-function CheckColliding(rect1, rect2)
-    if
-        rect1.posX + rect1.width > rect2.posX
-        and rect1.posX < rect2.posX + rect2.width
-        and rect1.posY + rect1.height > rect2.posY
-        and rect1.posY < rect2.posY + rect2.height
-    then
-        rect1.colliding = true
-        rect2.colliding = true
     end
 end
