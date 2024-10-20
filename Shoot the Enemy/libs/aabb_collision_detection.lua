@@ -20,7 +20,6 @@ function AabbFormula(rect1, rect2)
         and rect1.posY + rect1.height > rect2.posY
         and rect1.posY < rect2.posY + rect2.height
     then
-        rect1.colliding = true
-        rect2.colliding = true
+        return true
     end
 end

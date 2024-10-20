@@ -6,6 +6,7 @@
       "editor.defaultFormatter": "JohnnyMorganz.stylua"
     },
     "editor.formatOnSave": true,
-    "editor.tabSize": 4
+    "editor.tabSize": 4,
+    "explorer.copyRelativePathSeparator": "/"
 }
   
