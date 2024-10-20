@@ -3,14 +3,14 @@ require("libs.vscode_debugging_support")
 local Image
 local sprites, playerImage, player, enemyImage, enemy
 local bullets, score, highScore
-
-highScore = 0
+local json
 
 function love.load()
     -- Getting libraries
     require("libs.aabb_collision_detection")
     Image = require("libs.image")
     Rectangle = require("libs.rectangle")
+    json = require("libs.json")
 
     -- Seeding math.random so that the circle radius is actually random
     math.randomseed(os.time())
@@ -23,6 +23,10 @@ function love.load()
 
     CreateCharacters()
     GenerateBackground()
+
+    if not LoadData() then
+        highScore = 0
+    end
 end
 
 function love.update(dt)
@@ -34,6 +38,7 @@ function love.update(dt)
             if score > highScore then
                 highScore = score
             end
+            SaveData()
             love.load()
         end
         if AabbFormula(enemy, bullet) then
@@ -63,6 +68,10 @@ function love.keypressed(key)
     end
 end
 
+function love.quit()
+    SaveData()
+end
+
 function GenerateBackground()
     -- Generate a muted random color
     local mutedFactor = 0.5 -- Controls how muted the colors are (0 = grayscale, 1 = full color)
@@ -84,4 +93,18 @@ function CreateCharacters()
         love.graphics.newImage("img/50+ Monsters Pack 2D/Monsters/Normal Colors/" .. sprites[math.random(1, #sprites)])
     player = Image(playerImage, 0, 500)
     enemy = Image(enemyImage, love.graphics.getHeight() - enemyImage:getWidth(), 50)
+end
+
+function SaveData()
+    -- Writes to here: C:\Users\<YourUsername>\AppData\Roaming\LOVE\<YourGameName>\
+    love.filesystem.write("savedata.json", json.encode(highScore))
+end
+
+function LoadData()
+    if love.filesystem.getInfo("savedata.json") then
+        highScore = json.decode(love.filesystem.read("savedata.json"))
+        return true
+    end
+    print("Failed to find save data")
+    return false
 end

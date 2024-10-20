@@ -7,7 +7,7 @@ function Rectangle:new(posX, posY, color)
     self.posY = posY
     self.width = 10
     self.height = 50
-    self.speed = 1000
+    self.speed = love.graphics.getHeight() * 2
     self.color = color
 end
 
