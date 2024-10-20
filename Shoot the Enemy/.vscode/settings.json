@@ -1,0 +1,11 @@
+{
+    "stylua.configPath": ".stylua.toml",
+    "editor.defaultFormatter": "JohnnyMorganz.stylua",
+    "[lua]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "JohnnyMorganz.stylua"
+    },
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4
+}
+  

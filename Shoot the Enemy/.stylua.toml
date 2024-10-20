@@ -1,0 +1,14 @@
+# Indentation width
+indent_width = 4
+
+# Column width for line wrapping
+column_width = 120
+
+# Use tabs for indentation
+indent_type = "Spaces"
+
+# Quote style, choose between "AutoPreferDouble", "AutoPreferSingle", "ForceDouble", "ForceSingle"
+quote_style = "AutoPreferDouble"
+
+# Call parenthesis style, "NoSingleString", "Always", "None"
+call_parentheses = "Always"
