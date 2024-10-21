@@ -1,6 +1,6 @@
 require("libs.vscode_debugging_support")
 
-local Image
+local Player, Enemy, Bullet
 local sprites, playerImage, player, enemyImage, enemy
 local bullets, score, highScore
 local json
@@ -8,8 +8,9 @@ local json
 function love.load()
     -- Getting libraries
     require("libs.aabb_collision_detection")
-    Image = require("libs.image")
-    Rectangle = require("libs.rectangle")
+    Player = require("libs.player")
+    Enemy = require("libs.enemy")
+    Bullet = require("libs.bullet")
     json = require("libs.json")
 
     -- Seeding math.random so that the circle radius is actually random
@@ -30,8 +31,8 @@ function love.load()
 end
 
 function love.update(dt)
-    player:movePlayer(dt)
-    enemy:moveEnemy(dt)
+    player:move(dt)
+    enemy:move(dt)
 
     for i, bullet in ipairs(bullets) do
         if not bullet:move(dt) then
@@ -63,7 +64,7 @@ function love.keypressed(key)
     if key == "space" then
         table.insert(
             bullets,
-            Rectangle(player.posX + (player.width / 2), player.posY + player.height, player.bulletColor)
+            Bullet(player.posX + (player.width / 2), player.posY + player.height, player.bulletColor)
         )
     end
 end
@@ -91,8 +92,8 @@ function CreateCharacters()
         love.graphics.newImage("img/50+ Monsters Pack 2D/Monsters/Normal Colors/" .. sprites[math.random(1, #sprites)])
     enemyImage =
         love.graphics.newImage("img/50+ Monsters Pack 2D/Monsters/Normal Colors/" .. sprites[math.random(1, #sprites)])
-    player = Image(playerImage, 0, 500)
-    enemy = Image(enemyImage, love.graphics.getHeight() - enemyImage:getWidth(), 50)
+    player = Player(playerImage, 0, 500)
+    enemy = Enemy(enemyImage, love.graphics.getHeight() - enemyImage:getWidth(), 50)
 end
 
 function SaveData()
