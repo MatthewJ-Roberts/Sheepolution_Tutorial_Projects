@@ -1,8 +1,8 @@
 local Object = require("libs.classic")
 
-local Rectangle = Object:extend()
+local Bullet = Object:extend()
 
-function Rectangle:new(posX, posY, color)
+function Bullet:new(posX, posY, color)
     self.posX = posX
     self.posY = posY
     self.width = 10
@@ -11,7 +11,7 @@ function Rectangle:new(posX, posY, color)
     self.color = color
 end
 
-function Rectangle:move(dt)
+function Bullet:move(dt)
     if self.posY < love.graphics.getHeight() - self.height then
         self.posY = self.posY + self.speed * dt
         return true
@@ -19,7 +19,7 @@ function Rectangle:move(dt)
     return false
 end
 
-function Rectangle:draw()
+function Bullet:draw()
     -- Drawing a rectangle filled with the random color + a white outline
     love.graphics.setColor(self.color)
     love.graphics.rectangle("fill", self.posX, self.posY, self.width, self.height)
@@ -27,4 +27,4 @@ function Rectangle:draw()
     love.graphics.rectangle("line", self.posX, self.posY, self.width, self.height)
 end
 
-return Rectangle
+return Bullet
