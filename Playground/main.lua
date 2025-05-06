@@ -92,7 +92,7 @@ function love.keypressed(key)
         end
     elseif key == "lshift" then
         words[1] = "You pressed lshift!"
-    elseif key == "rctrl" and #rectangles < 2 then
+    elseif key == "lalt" and #rectangles < 2 then
         players = players + 1
         table.insert(rectangles, Rectangle(players))
         table.insert(words, "Player 2 has joined!")
