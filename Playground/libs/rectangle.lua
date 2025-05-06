@@ -15,11 +15,20 @@ local playerData = {
         modeToggle = "m",
         color = { 0, 1, 0 },
     },
+    [3] = {
+        controls = { up = "i", down = "k", left = "j", right = "l" },
+        speedToggle = ";",
+        modeToggle = "'",
+        color = { 0, 0, 1 },
+    },
 }
 
 function Rectangle:new(players)
     self.posX = 0
     self.posY = 0
+    self.width = 100
+    self.height = 100
+    self.colliding = false
     self.mode = "fill"
     self.speed = 100
     self.player = players
@@ -55,8 +64,13 @@ function Rectangle:changeMode(key)
 end
 
 function Rectangle:draw()
+    if self.colliding then
+        self.mode = "line"
+    else
+        self.mode = "fill"
+    end
     love.graphics.setColor(playerData[self.player].color)
-    love.graphics.rectangle(self.mode, self.posX, self.posY, 100, 100)
+    love.graphics.rectangle(self.mode, self.posX, self.posY, self.width, self.height)
     love.graphics.setColor(1, 1, 1)
 end
 
